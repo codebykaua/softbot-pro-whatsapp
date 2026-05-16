@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoftBot Pro | Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+
+    <aside class="sidebar">
+      <div class="logo">
+        <span class="logo-icon">S</span>
+        <div>
+          <h1>SoftBot Pro</h1>
+          <p>Automação WhatsApp</p>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a class="active" href="index.html">Dashboard</a>
+        <a href="mensagens.html">Mensagens</a>
+        <a href="faq.html">FAQs</a>
+        <a href="usuarios.html">Usuários</a>
+        <a href="perfil.html">Meu Perfil</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <h2>Dashboard</h2>
+          <p>Resumo geral do bot e simulador de atendimento.</p>
+        </div>
+
+        <div class="status-api">
+          <span></span>
+          API local ativa
+        </div>
+      </header>
+
+        <section class="grid dashboard-grid">
+        <div class="card info-card">
+          <h3>Total de mensagens</h3>
+          <p id="totalMensagens">0</p>
+          <span>Mensagens registradas</span>
+        </div>
+
+        <div class="card info-card">
+          <h3>FAQs</h3>
+          <p id="totalFaqs">0</p>
+          <span>Respostas cadastradas</span>
+        </div>
+
+        <div class="card info-card status-card respondido-card">
+          <h3>Respondidas</h3>
+          <p id="totalRespondidas">0</p>
+          <span>Atendimentos respondidos</span>
+        </div>
+
+        <div class="card info-card status-card pendente-card">
+          <h3>Pendentes</h3>
+          <p id="totalPendentes">0</p>
+          <span>Aguardando análise</span>
+        </div>
+
+        <div class="card info-card status-card encaminhado-card">
+          <h3>Encaminhadas</h3>
+          <p id="totalEncaminhadas">0</p>
+          <span>Enviadas para atendimento</span>
+        </div>
+
+        <div class="card info-card status-card finalizado-card">
+          <h3>Finalizadas</h3>
+          <p id="totalFinalizadas">0</p>
+          <span>Atendimentos concluídos</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h3>Simulador de WhatsApp</h3>
+            <p>Teste como o bot responde às mensagens de um cliente.</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="telefone">Telefone do cliente</label>
+            <input type="text" id="telefone" value="75999999999">
+          </div>
+
+          <div class="field">
+            <label for="mensagem">Mensagem</label>
+            <input type="text" id="mensagem" placeholder="Ex: quero fazer um site">
+          </div>
+        </div>
+
+        <button onclick="enviarMensagem()">Enviar mensagem</button>
+
+        <div id="respostaBot" class="bot-response hidden"></div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h3>Últimas mensagens</h3>
+            <p>Visualização rápida dos atendimentos mais recentes.</p>
+          </div>
+
+          <a class="link-button" href="mensagens.html">Ver histórico completo</a>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Telefone</th>
+                <th>Mensagem</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="listaMensagensResumo">
+              <tr>
+                <td colspan="4">Nenhuma mensagem carregada.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoftBot Pro | FAQs</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+
+    <aside class="sidebar">
+      <div class="logo">
+        <span class="logo-icon">S</span>
+        <div>
+          <h1>SoftBot Pro</h1>
+          <p>Automação WhatsApp</p>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a href="index.html">Dashboard</a>
+        <a href="mensagens.html">Mensagens</a>
+        <a class="active" href="faq.html">FAQs</a>
+        <a href="usuarios.html">Usuários</a>
+        <a href="perfil.html">Meu Perfil</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <h2>Gerenciamento de FAQs</h2>
+          <p>Cadastre respostas automáticas para o bot usar nas conversas.</p>
+        </div>
+
+        <button onclick="carregarFaqs()">Atualizar</button>
+      </header>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h3>Cadastrar nova FAQ</h3>
+            <p>Use uma palavra-chave para o bot identificar a resposta correta.</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="palavraChave">Palavra-chave</label>
+            <input type="text" id="palavraChave" placeholder="Ex: site">
+          </div>
+
+          <div class="field">
+            <label for="pergunta">Pergunta</label>
+            <input type="text" id="pergunta" placeholder="Ex: Vocês desenvolvem sites?">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="respostaFaq">Resposta automática</label>
+          <textarea id="respostaFaq" placeholder="Digite a resposta que o bot deve enviar"></textarea>
+        </div>
+
+        <button class="admin-only" onclick="cadastrarFaq()">Cadastrar FAQ</button>
+
+        <div id="alertaFaq" class="alert hidden"></div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h3>FAQs cadastradas</h3>
+            <p>Lista de respostas automáticas salvas no banco.</p>
+          </div>
+        </div>
+
+        <div id="listaFaqs" class="faq-list">
+          <p>Nenhuma FAQ carregada.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

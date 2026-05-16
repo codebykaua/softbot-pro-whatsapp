@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SoftBot Pro | Login</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-body">
+  <main class="login-container">
+    <section class="login-card">
+      <div class="login-logo">
+        <span class="logo-icon">S</span>
+        <div>
+          <h1>SoftBot Pro</h1>
+          <p>Painel administrativo</p>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="username">Usuário</label>
+        <input type="text" id="username" placeholder="Digite seu usuário">
+      </div>
+
+      <div class="field">
+        <label for="password">Senha</label>
+        <input type="password" id="password" placeholder="Digite sua senha">
+      </div>
+
+      <button onclick="fazerLogin()">Entrar</button>
+
+      <div id="erroLogin" class="alert-error hidden"></div>
+
+      <p class="login-help">
+        Usuário inicial: <strong>admin</strong><br>
+        Senha inicial: <strong>123456</strong>
+      </p>
+    </section>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

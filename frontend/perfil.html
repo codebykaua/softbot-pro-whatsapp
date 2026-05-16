@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoftBot Pro | Meu Perfil</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+
+    <aside class="sidebar">
+      <div class="logo">
+        <span class="logo-icon">S</span>
+        <div>
+          <h1>SoftBot Pro</h1>
+          <p>Automação WhatsApp</p>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a href="index.html">Dashboard</a>
+        <a href="mensagens.html">Mensagens</a>
+        <a href="faq.html">FAQs</a>
+        <a href="usuarios.html">Usuários</a>
+        <a class="active" href="perfil.html">Meu Perfil</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <h2>Meu Perfil</h2>
+          <p>Veja seus dados de acesso e altere sua senha.</p>
+        </div>
+
+        <div class="status-api">
+          <span></span>
+          Sessão ativa
+        </div>
+      </header>
+
+      <section class="grid profile-grid">
+        <div class="card profile-card">
+          <div class="profile-avatar" id="profileAvatar">U</div>
+
+          <div>
+            <h3 id="perfilNome">Carregando...</h3>
+            <p id="perfilUsername">@usuario</p>
+          </div>
+
+          <span class="profile-badge" id="perfilTipo">perfil</span>
+        </div>
+
+        <div class="card info-card">
+          <h3>ID do usuário</h3>
+          <p id="perfilId">0</p>
+          <span>Identificador interno</span>
+        </div>
+
+        <div class="card info-card">
+          <h3>Data de criação</h3>
+          <p class="profile-date" id="perfilCriadoEm">--</p>
+          <span>Registro no sistema</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h3>Alterar minha senha</h3>
+            <p>Informe sua senha atual e depois uma nova senha.</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="senhaAtual">Senha atual</label>
+            <input type="password" id="senhaAtual" placeholder="Digite sua senha atual">
+          </div>
+
+          <div class="field">
+            <label for="novaSenhaPerfil">Nova senha</label>
+            <input type="password" id="novaSenhaPerfil" placeholder="Mínimo 6 caracteres">
+          </div>
+        </div>
+
+        <button onclick="alterarMinhaSenha()">Alterar senha</button>
+
+        <div id="alertaPerfil" class="alert hidden"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

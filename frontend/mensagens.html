@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoftBot Pro | Mensagens</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+
+    <aside class="sidebar">
+      <div class="logo">
+        <span class="logo-icon">S</span>
+        <div>
+          <h1>SoftBot Pro</h1>
+          <p>Automação WhatsApp</p>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a href="index.html">Dashboard</a>
+        <a class="active" href="mensagens.html">Mensagens</a>
+        <a href="faq.html">FAQs</a>
+        <a href="usuarios.html">Usuários</a>
+        <a href="perfil.html">Meu Perfil</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+    <div>
+        <h2>Histórico de Mensagens</h2>
+        <p>Veja todas as mensagens recebidas e respondidas pelo bot.</p>
+    </div>
+
+    <div class="actions">
+        <button class="secondary" onclick="carregarMensagens()">Atualizar</button>
+        <button class="danger admin-only" onclick="limparHistorico()">Limpar histórico</button>
+    </div>
+    </header>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h3>Mensagens registradas</h3>
+            <p>Dados salvos no banco SQLite através da API.</p>
+          </div>
+        </div>
+
+        <div class="filters-box">
+          <div class="field">
+            <label for="filtroBusca">Buscar</label>
+            <input 
+              type="text" 
+              id="filtroBusca" 
+              placeholder="Buscar por telefone, mensagem ou resposta"
+              oninput="aplicarFiltrosMensagens()"
+            >
+          </div>
+
+          <div class="field">
+            <label for="filtroStatus">Status</label>
+            <select id="filtroStatus" onchange="aplicarFiltrosMensagens()">
+              <option value="todos">Todos</option>
+              <option value="respondido">Respondido</option>
+              <option value="pendente">Pendente</option>
+              <option value="encaminhado">Encaminhado</option>
+              <option value="finalizado">Finalizado</option>
+            </select>
+          </div>
+
+          <div class="field filter-button-area">
+            <label>&nbsp;</label>
+            <button class="secondary" onclick="limparFiltrosMensagens()">Limpar filtros</button>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+            <tr>
+            <th>ID</th>
+            <th>Telefone</th>
+            <th>Mensagem recebida</th>
+            <th>Resposta enviada</th>
+            <th>Status</th>
+            <th>Data</th>
+            <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody id="listaMensagens">
+              <tr>
+                <td colspan="7">Nenhuma mensagem carregada.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

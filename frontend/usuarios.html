@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoftBot Pro | Usuários</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+
+    <aside class="sidebar">
+      <div class="logo">
+        <span class="logo-icon">S</span>
+        <div>
+          <h1>SoftBot Pro</h1>
+          <p>Automação WhatsApp</p>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a href="index.html">Dashboard</a>
+        <a href="mensagens.html">Mensagens</a>
+        <a href="faq.html">FAQs</a>
+        <a class="active" href="usuarios.html">Usuários</a>
+        <a href="perfil.html">Meu Perfil</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <h2>Gerenciamento de Usuários</h2>
+          <p>Cadastre, visualize e gerencie usuários do painel administrativo.</p>
+        </div>
+
+        <button onclick="carregarUsuarios()">Atualizar</button>
+      </header>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h3>Criar novo usuário</h3>
+            <p>Adicione usuários para acessar o painel do SoftBot Pro.</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="nomeUsuario">Nome</label>
+            <input type="text" id="nomeUsuario" placeholder="Ex: Kauã Lucas">
+          </div>
+
+          <div class="field">
+            <label for="usernameUsuario">Username</label>
+            <input type="text" id="usernameUsuario" placeholder="Ex: kaua">
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="senhaUsuario">Senha</label>
+            <input type="password" id="senhaUsuario" placeholder="Mínimo 6 caracteres">
+          </div>
+
+          <div class="field">
+            <label for="perfilUsuario">Perfil</label>
+            <select id="perfilUsuario">
+              <option value="admin">admin</option>
+              <option value="atendente">atendente</option>
+              <option value="suporte">suporte</option>
+            </select>
+          </div>
+        </div>
+
+        <button onclick="cadastrarUsuario()">Cadastrar usuário</button>
+
+        <div id="alertaUsuario" class="alert hidden"></div>
+      </section>
+
+      <section class="card hidden" id="cardEditarUsuario">
+        <div class="section-header">
+          <div>
+            <h3>Editar usuário</h3>
+            <p>Altere nome, username ou perfil do usuário selecionado.</p>
+          </div>
+        </div>
+
+        <input type="hidden" id="editarUsuarioId">
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="editarNomeUsuario">Nome</label>
+            <input type="text" id="editarNomeUsuario" placeholder="Nome do usuário">
+          </div>
+
+          <div class="field">
+            <label for="editarUsernameUsuario">Username</label>
+            <input type="text" id="editarUsernameUsuario" placeholder="Username">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="editarPerfilUsuario">Perfil</label>
+          <select id="editarPerfilUsuario">
+            <option value="admin">admin</option>
+            <option value="atendente">atendente</option>
+            <option value="suporte">suporte</option>
+          </select>
+        </div>
+
+        <div class="actions">
+          <button onclick="salvarEdicaoUsuario()">Salvar alterações</button>
+          <button class="secondary" onclick="cancelarEdicaoUsuario()">Cancelar</button>
+        </div>
+
+        <div id="alertaEditarUsuario" class="alert hidden"></div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h3>Usuários cadastrados</h3>
+            <p>Lista de usuários com acesso ao painel.</p>
+          </div>
+        </div>
+
+        <div class="filters-box">
+          <div class="field">
+            <label for="filtroUsuarioBusca">Buscar usuário</label>
+            <input 
+              type="text" 
+              id="filtroUsuarioBusca" 
+              placeholder="Buscar por nome ou username"
+              oninput="aplicarFiltrosUsuarios()"
+            >
+          </div>
+
+          <div class="field">
+            <label for="filtroUsuarioPerfil">Perfil</label>
+            <select id="filtroUsuarioPerfil" onchange="aplicarFiltrosUsuarios()">
+              <option value="todos">Todos</option>
+              <option value="admin">Admin</option>
+              <option value="atendente">Atendente</option>
+              <option value="suporte">Suporte</option>
+            </select>
+          </div>
+
+          <div class="field filter-button-area">
+            <label>&nbsp;</label>
+            <button class="secondary" onclick="limparFiltrosUsuarios()">Limpar filtros</button>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Username</th>
+                <th>Perfil</th>
+                <th>Data</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="listaUsuarios">
+              <tr>
+                <td colspan="6">Nenhum usuário carregado.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
