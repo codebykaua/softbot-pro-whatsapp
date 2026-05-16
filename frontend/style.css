@@ -1157,3 +1157,86 @@ tr:hover td {
     font-size: 24px;
   }
 }
+
+.not-found-body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(34, 197, 94, 0.25), transparent 35%),
+    linear-gradient(135deg, #0f172a, #020617);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.not-found-container {
+  width: 100%;
+  max-width: 560px;
+}
+
+.not-found-card {
+  background: white;
+  padding: 42px;
+  border-radius: 28px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+  text-align: center;
+}
+
+.not-found-logo {
+  margin: 0 auto 22px;
+}
+
+.not-found-code {
+  display: inline-block;
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 900;
+  margin-bottom: 18px;
+}
+
+.not-found-card h1 {
+  font-size: 34px;
+  color: var(--text-main);
+  margin-bottom: 12px;
+  letter-spacing: -0.8px;
+}
+
+.not-found-card p {
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.not-found-actions {
+  justify-content: center;
+}
+
+.secondary-link {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.secondary-link:hover {
+  background: #cbd5e1;
+}
+
+@media (max-width: 520px) {
+  .not-found-card {
+    padding: 28px;
+    border-radius: 22px;
+  }
+
+  .not-found-card h1 {
+    font-size: 27px;
+  }
+
+  .not-found-actions {
+    flex-direction: column;
+  }
+
+  .not-found-actions a {
+    width: 100%;
+  }
+}

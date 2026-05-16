@@ -124,6 +124,13 @@ O objetivo do SoftBot Pro WhatsApp é criar uma base profissional para automaç�
 - Próximas melhorias
 - Informações do autor
 
+### Página 404
+
+- Página personalizada para erro de rota ou página não encontrada
+- Botão para voltar ao Dashboard
+- Botão para voltar ao Login
+- Visual integrado ao design do SoftBot Pro
+
 ---
 
 ## Prints do projeto
@@ -165,6 +172,14 @@ Painel de diagnóstico geral com status da API, banco, ambiente, URL da API e in
 Página explicando o objetivo do projeto, tecnologias usadas, funcionalidades principais e próximas melhorias.
 
 ![Sobre o Sistema](docs/prints-do-projeto/13-sobre.png)
+
+---
+
+### Página 404
+
+Tela personalizada para páginas não encontradas.
+
+![Página 404](docs/prints-do-projeto/14-404.png)
 
 ---
 
