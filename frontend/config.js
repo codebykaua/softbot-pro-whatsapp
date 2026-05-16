@@ -1,2 +1,1 @@
-const API_URL = "https://softbot-pro-whatsapp.onrender.com/";
-
+const API_URL = "https://softbot-pro-whatsapp.onrender.com";
