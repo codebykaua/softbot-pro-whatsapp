@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoftBot Pro | WhatsApp</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+
+    <aside class="sidebar">
+      <div class="logo">
+        <span class="logo-icon">S</span>
+        <div>
+          <h1>SoftBot Pro</h1>
+          <p>Automação WhatsApp</p>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a href="index.html">Dashboard</a>
+        <a href="simulador.html">Simulador</a>
+        <a href="mensagens.html">Mensagens</a>
+        <a href="faq.html">FAQs</a>
+        <a href="usuarios.html">Usuários</a>
+        <a href="perfil.html">Meu Perfil</a>
+        <a class="active" href="whatsapp.html">WhatsApp</a>
+        <a href="relatorios.html">Relatórios</a>
+        <a href="configuracoes.html">Configurações</a>
+        <a href="sobre.html">Sobre</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <h2>Status do WhatsApp</h2>
+          <p>Veja se a integração com WhatsApp Business Platform está preparada.</p>
+        </div>
+
+        <button onclick="carregarStatusWhatsapp()">Atualizar</button>
+      </header>
+
+      <section class="grid whatsapp-grid">
+        <div class="card info-card">
+          <h3>Modo atual</h3>
+          <p id="whatsappModo">--</p>
+          <span>Simulação ou produção</span>
+        </div>
+
+        <div class="card info-card">
+          <h3>API Version</h3>
+          <p id="whatsappVersao">--</p>
+          <span>Versão da Graph API</span>
+        </div>
+
+        <div class="card info-card">
+          <h3>Status geral</h3>
+          <p id="whatsappPronto">--</p>
+          <span>Pronto para envio real</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h3>Configurações da integração</h3>
+            <p>Esses dados vêm das variáveis de ambiente do back-end.</p>
+          </div>
+        </div>
+
+        <div class="whatsapp-status-list">
+          <div class="whatsapp-status-item">
+            <div>
+              <h4>WHATSAPP_TOKEN</h4>
+              <p>Token de acesso usado para enviar mensagens pela API oficial.</p>
+            </div>
+            <span id="statusWhatsappToken" class="config-badge">--</span>
+          </div>
+
+          <div class="whatsapp-status-item">
+            <div>
+              <h4>WHATSAPP_PHONE_NUMBER_ID</h4>
+              <p>ID do número do WhatsApp Business configurado na Meta.</p>
+            </div>
+            <span id="statusWhatsappPhoneId" class="config-badge">--</span>
+          </div>
+
+          <div class="whatsapp-status-item">
+            <div>
+              <h4>WHATSAPP_VERIFY_TOKEN</h4>
+              <p>Token usado para validar o webhook com a Meta.</p>
+            </div>
+            <span id="statusWhatsappVerifyToken" class="config-badge">--</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h3>Resumo</h3>
+            <p>Mensagem atual do sistema sobre a integração.</p>
+          </div>
+        </div>
+
+        <div id="mensagemStatusWhatsapp" class="bot-response">
+          Carregando status da integração...
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h3>Rotas da integração</h3>
+            <p>Use essas rotas quando for configurar o webhook real.</p>
+          </div>
+        </div>
+
+        <div class="code-box">
+          <p><strong>Verificação do webhook:</strong></p>
+          <code>GET /whatsapp/webhook</code>
+
+          <p><strong>Recebimento de mensagens:</strong></p>
+          <code>POST /whatsapp/webhook</code>
+
+          <p><strong>Status da integração:</strong></p>
+          <code>GET /whatsapp/status</code>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

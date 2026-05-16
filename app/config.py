@@ -17,10 +17,6 @@ DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./softbot.db")
 
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://127.0.0.1:5500")
 
-WHATSAPP_TOKEN = os.getenv("WHATSAPP_TOKEN", "")
-WHATSAPP_PHONE_NUMBER_ID = os.getenv("WHATSAPP_PHONE_NUMBER_ID", "")
-WHATSAPP_VERIFY_TOKEN = os.getenv("WHATSAPP_VERIFY_TOKEN", "")
-
 CORS_ORIGINS = os.getenv(
     "CORS_ORIGINS",
     "http://127.0.0.1:5500,http://localhost:5500"
@@ -36,3 +32,8 @@ APP_NAME = os.getenv("APP_NAME", "SoftBot Pro WhatsApp")
 APP_VERSION = os.getenv("APP_VERSION", "1.0.0")
 APP_ENV = os.getenv("APP_ENV", "development")
 APP_AUTHOR = os.getenv("APP_AUTHOR", "Kauã Lucas")
+
+WHATSAPP_TOKEN = os.getenv("WHATSAPP_TOKEN", "")
+WHATSAPP_PHONE_NUMBER_ID = os.getenv("WHATSAPP_PHONE_NUMBER_ID", "")
+WHATSAPP_VERIFY_TOKEN = os.getenv("WHATSAPP_VERIFY_TOKEN", "softbot_verify_token_123")
+WHATSAPP_API_VERSION = os.getenv("WHATSAPP_API_VERSION", "v20.0")

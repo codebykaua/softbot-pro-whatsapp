@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoftBot Pro | Configurações</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+
+    <aside class="sidebar">
+      <div class="logo">
+        <span class="logo-icon">S</span>
+        <div>
+          <h1>SoftBot Pro</h1>
+          <p>Automação WhatsApp</p>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a href="index.html">Dashboard</a>
+        <a href="simulador.html">Simulador</a>
+        <a href="mensagens.html">Mensagens</a>
+        <a href="faq.html">FAQs</a>
+        <a href="usuarios.html">Usuários</a>
+        <a href="perfil.html">Meu Perfil</a>
+        <a href="whatsapp.html">WhatsApp</a>
+        <a href="relatorios.html">Relatórios</a>
+        <a class="active" href="configuracoes.html">Configurações</a>
+        <a href="sobre.html">Sobre</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <h2>Configurações</h2>
+          <p>Informações gerais do sistema, API, banco e ambiente.</p>
+        </div>
+
+        <button onclick="carregarConfiguracoes()">Atualizar</button>
+      </header>
+
+      <section class="grid settings-grid">
+        <div class="card info-card">
+          <h3>Status da API</h3>
+          <p id="configStatusApi">--</p>
+          <span>Verificação geral</span>
+        </div>
+
+        <div class="card info-card">
+          <h3>Banco de dados</h3>
+          <p id="configStatusBanco">--</p>
+          <span>Conexão atual</span>
+        </div>
+
+        <div class="card info-card">
+          <h3>Ambiente</h3>
+          <p id="configAmbiente">--</p>
+          <span>development ou production</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h3>Informações da aplicação</h3>
+            <p>Dados retornados pela rota <strong>GET /info</strong>.</p>
+          </div>
+        </div>
+
+        <div class="settings-list">
+          <div class="settings-item">
+            <strong>Nome do sistema</strong>
+            <span id="configNomeSistema">--</span>
+          </div>
+
+          <div class="settings-item">
+            <strong>Versão</strong>
+            <span id="configVersaoSistema">--</span>
+          </div>
+
+          <div class="settings-item">
+            <strong>Autor</strong>
+            <span id="configAutorSistema">--</span>
+          </div>
+
+          <div class="settings-item">
+            <strong>URL da API no front-end</strong>
+            <span id="configApiUrl">--</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h3>Integração WhatsApp</h3>
+            <p>Status das variáveis necessárias para envio real.</p>
+          </div>
+        </div>
+
+        <div class="settings-list">
+          <div class="settings-item">
+            <strong>Modo WhatsApp</strong>
+            <span id="configWhatsappModo" class="config-badge">--</span>
+          </div>
+
+          <div class="settings-item">
+            <strong>Token configurado</strong>
+            <span id="configWhatsappToken" class="config-badge">--</span>
+          </div>
+
+          <div class="settings-item">
+            <strong>Phone Number ID</strong>
+            <span id="configWhatsappPhone" class="config-badge">--</span>
+          </div>
+
+          <div class="settings-item">
+            <strong>Verify Token</strong>
+            <span id="configWhatsappVerify" class="config-badge">--</span>
+          </div>
+
+          <div class="settings-item">
+            <strong>Versão da API WhatsApp</strong>
+            <span id="configWhatsappVersao">--</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h3>Rotas de diagnóstico</h3>
+            <p>Links úteis para testar a API rapidamente.</p>
+          </div>
+        </div>
+
+        <div class="code-box">
+          <p><strong>Health Check:</strong></p>
+          <code id="configHealthUrl">/health</code>
+
+          <p><strong>Info da API:</strong></p>
+          <code id="configInfoUrl">/info</code>
+
+          <p><strong>Status WhatsApp:</strong></p>
+          <code id="configWhatsappStatusUrl">/whatsapp/status</code>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

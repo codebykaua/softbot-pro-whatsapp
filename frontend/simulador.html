@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoftBot Pro | Simulador</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+
+    <aside class="sidebar">
+      <div class="logo">
+        <span class="logo-icon">S</span>
+        <div>
+          <h1>SoftBot Pro</h1>
+          <p>Automação WhatsApp</p>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a href="index.html">Dashboard</a>
+        <a class="active" href="simulador.html">Simulador</a>
+        <a href="mensagens.html">Mensagens</a>
+        <a href="faq.html">FAQs</a>
+        <a href="usuarios.html">Usuários</a>
+        <a href="perfil.html">Meu Perfil</a>
+        <a href="whatsapp.html">WhatsApp</a>
+        <a href="relatorios.html">Relatórios</a>
+        <a href="configuracoes.html">Configurações</a>
+        <a href="sobre.html">Sobre</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <h2>Simulador do Bot</h2>
+          <p>Teste o atendimento automático antes de conectar ao WhatsApp real.</p>
+        </div>
+
+        <div class="status-api">
+          <span></span>
+          Simulação ativa
+        </div>
+      </header>
+
+      <section class="grid simulator-grid">
+        <div class="card">
+          <div class="section-header">
+            <div>
+              <h3>Enviar mensagem de teste</h3>
+              <p>Simule uma mensagem recebida de um cliente.</p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="simuladorTelefone">Telefone do cliente</label>
+            <input 
+              type="text" 
+              id="simuladorTelefone" 
+              placeholder="Ex: 5575999999999"
+              value="5575999999999"
+            >
+          </div>
+
+          <div class="field">
+            <label for="simuladorMensagem">Mensagem</label>
+            <textarea 
+              id="simuladorMensagem" 
+              placeholder="Digite uma mensagem para testar o bot"
+            ></textarea>
+          </div>
+
+          <div class="actions">
+            <button onclick="enviarMensagemSimulador()">Enviar para o bot</button>
+            <button class="secondary" onclick="limparSimulador()">Limpar</button>
+          </div>
+
+          <div id="simuladorAlerta" class="alert hidden"></div>
+        </div>
+
+        <div class="card">
+          <div class="section-header">
+            <div>
+              <h3>Resposta gerada</h3>
+              <p>Veja o retorno do bot em tempo real.</p>
+            </div>
+          </div>
+
+          <div class="simulator-response">
+            <div>
+              <span class="simulator-label">Telefone</span>
+              <p id="simuladorResultadoTelefone">--</p>
+            </div>
+
+            <div>
+              <span class="simulator-label">Status</span>
+              <p id="simuladorResultadoStatus">--</p>
+            </div>
+
+            <div>
+              <span class="simulator-label">Resposta</span>
+              <p id="simuladorResultadoResposta">A resposta aparecerá aqui.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h3>Mensagens rápidas para teste</h3>
+            <p>Clique em um exemplo para preencher o campo automaticamente.</p>
+          </div>
+        </div>
+
+        <div class="quick-messages">
+          <button class="secondary" onclick="usarMensagemRapida('oi')">oi</button>
+          <button class="secondary" onclick="usarMensagemRapida('quero fazer um site')">quero fazer um site</button>
+          <button class="secondary" onclick="usarMensagemRapida('preciso de suporte')">preciso de suporte</button>
+          <button class="secondary" onclick="usarMensagemRapida('quero orçamento')">quero orçamento</button>
+          <button class="secondary" onclick="usarMensagemRapida('mensagem aleatória')">mensagem aleatória</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h3>Como funciona</h3>
+            <p>Esse simulador usa a mesma lógica do atendimento automático.</p>
+          </div>
+        </div>
+
+        <div class="code-box">
+          <p><strong>Rota usada:</strong></p>
+          <code>POST /webhook</code>
+
+          <p><strong>O que acontece:</strong></p>
+          <code>mensagem enviada → bot processa → resposta é salva → aparece em mensagens.html</code>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

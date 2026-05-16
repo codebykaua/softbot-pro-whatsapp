@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy import text
@@ -19,7 +19,18 @@ from app.schemas import (
 )
 from app.bot import gerar_resposta_com_faq
 from app.auth import verificar_senha, criar_token_acesso, decodificar_token
-from app.config import CORS_ORIGINS_LIST, APP_NAME, APP_VERSION, APP_ENV, APP_AUTHOR
+from app.config import (
+    CORS_ORIGINS_LIST,
+    APP_NAME,
+    APP_VERSION,
+    APP_ENV,
+    APP_AUTHOR,
+    WHATSAPP_TOKEN,
+    WHATSAPP_PHONE_NUMBER_ID,
+    WHATSAPP_VERIFY_TOKEN,
+    WHATSAPP_API_VERSION
+)
+from app.whatsapp_service import extrair_mensagem_whatsapp, enviar_mensagem_whatsapp
 from app import crud
 
 Base.metadata.create_all(bind=engine)
@@ -494,4 +505,121 @@ def editar_usuario(
         "nome": usuario.nome,
         "username": usuario.username,
         "perfil": usuario.perfil
+    }
+
+
+@app.get("/whatsapp/webhook")
+def verificar_webhook_whatsapp(request: Request):
+    """
+    Rota usada para verificação do webhook do WhatsApp.
+    """
+
+    hub_mode = request.query_params.get("hub.mode") or request.query_params.get("hub_mode")
+    hub_verify_token = (
+        request.query_params.get("hub.verify_token") or
+        request.query_params.get("hub_verify_token")
+    )
+    hub_challenge = (
+        request.query_params.get("hub.challenge") or
+        request.query_params.get("hub_challenge")
+    )
+
+    if hub_mode == "subscribe" and hub_verify_token == WHATSAPP_VERIFY_TOKEN:
+        return int(hub_challenge)
+
+    raise HTTPException(
+        status_code=403,
+        detail="Token de verificação inválido."
+    )
+
+
+@app.post("/whatsapp/webhook")
+async def receber_webhook_whatsapp(
+    request: Request,
+    db: Session = Depends(get_db)
+):
+    """
+    Rota preparada para receber mensagens reais do WhatsApp.
+    """
+
+    payload = await request.json()
+
+    dados_mensagem = extrair_mensagem_whatsapp(payload)
+
+    if dados_mensagem is None:
+        return {
+            "status": "ignorado",
+            "mensagem": "Nenhuma mensagem de texto encontrada no payload."
+        }
+
+    telefone = dados_mensagem["telefone"]
+    mensagem_recebida = dados_mensagem["mensagem"]
+    tipo_mensagem = dados_mensagem.get("tipo", "unknown")
+
+    print("\n[WHATSAPP] Mensagem recebida")
+    print(f"Telefone: {telefone}")
+    print(f"Tipo: {tipo_mensagem}")
+    print(f"Mensagem: {mensagem_recebida}")
+
+    if tipo_mensagem != "text":
+        resposta = (
+            "Recebemos sua mensagem, mas no momento o atendimento automático "
+            "responde apenas mensagens de texto. Por favor, envie sua dúvida por escrito."
+        )
+        status = "pendente"
+    else:
+        faqs = crud.listar_faqs(db)
+        resposta, status = gerar_resposta_com_faq(mensagem_recebida, faqs)
+
+    crud.salvar_mensagem(
+        db=db,
+        telefone=telefone,
+        mensagem=mensagem_recebida,
+        resposta=resposta,
+        status=status
+    )
+
+    resultado_envio = enviar_mensagem_whatsapp(
+        telefone=telefone,
+        mensagem=resposta
+    )
+
+    print(f"Resposta gerada: {resposta}")
+    print(f"Status atendimento: {status}")
+    print(f"Envio WhatsApp: {resultado_envio}")
+    print("[WHATSAPP] Processamento finalizado\n")
+
+    return {
+        "status": "processado",
+        "telefone": telefone,
+        "mensagem_recebida": mensagem_recebida,
+        "tipo_mensagem": tipo_mensagem,
+        "resposta_gerada": resposta,
+        "status_atendimento": status,
+        "envio_whatsapp": resultado_envio
+    }
+
+
+@app.get("/whatsapp/status")
+def status_integracao_whatsapp(usuario=Depends(get_usuario_logado)):
+    token_configurado = bool(WHATSAPP_TOKEN)
+    phone_id_configurado = bool(WHATSAPP_PHONE_NUMBER_ID)
+    verify_token_configurado = bool(WHATSAPP_VERIFY_TOKEN)
+
+    pronto_para_envio = token_configurado and phone_id_configurado
+
+    modo = "produção" if pronto_para_envio else "simulação"
+
+    return {
+        "whatsapp_token_configurado": token_configurado,
+        "phone_number_id_configurado": phone_id_configurado,
+        "verify_token_configurado": verify_token_configurado,
+        "api_version": WHATSAPP_API_VERSION,
+        "modo": modo,
+        "pronto_para_envio": pronto_para_envio,
+        "mensagem": (
+            "Integração pronta para envio real."
+            if pronto_para_envio
+            else "Integração em modo de simulação. Configure token e Phone Number ID para envio real."
+        )
     }

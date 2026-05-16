@@ -1091,6 +1091,395 @@ function limparFiltrosUsuarios() {
   renderizarUsuarios(usuariosCache);
 }
 
+function formatarStatusConfig(valor) {
+  return valor ? "Configurado" : "Não configurado";
+}
+
+function aplicarClasseStatusConfig(elemento, valor) {
+  if (!elemento) return;
+
+  elemento.classList.remove("config-ok", "config-warning");
+
+  if (valor) {
+    elemento.classList.add("config-ok");
+  } else {
+    elemento.classList.add("config-warning");
+  }
+}
+
+async function carregarStatusWhatsapp() {
+  const whatsappModo = document.getElementById("whatsappModo");
+  const whatsappVersao = document.getElementById("whatsappVersao");
+  const whatsappPronto = document.getElementById("whatsappPronto");
+
+  const statusWhatsappToken = document.getElementById("statusWhatsappToken");
+  const statusWhatsappPhoneId = document.getElementById("statusWhatsappPhoneId");
+  const statusWhatsappVerifyToken = document.getElementById("statusWhatsappVerifyToken");
+  const mensagemStatusWhatsapp = document.getElementById("mensagemStatusWhatsapp");
+
+  if (!whatsappModo) return;
+
+  try {
+    const resposta = await fetch(`${API_URL}/whatsapp/status`, {
+      headers: authHeaders()
+    });
+
+    if (verificarErroAuth(resposta)) return;
+
+    const dados = await resposta.json();
+
+    if (!resposta.ok) {
+      if (mensagemStatusWhatsapp) {
+        mensagemStatusWhatsapp.innerText = dados.detail || "Erro ao carregar status do WhatsApp.";
+      }
+      return;
+    }
+
+    whatsappModo.innerText = dados.modo;
+    whatsappVersao.innerText = dados.api_version;
+    whatsappPronto.innerText = dados.pronto_para_envio ? "Sim" : "Não";
+
+    statusWhatsappToken.innerText = formatarStatusConfig(dados.whatsapp_token_configurado);
+    statusWhatsappPhoneId.innerText = formatarStatusConfig(dados.phone_number_id_configurado);
+    statusWhatsappVerifyToken.innerText = formatarStatusConfig(dados.verify_token_configurado);
+
+    aplicarClasseStatusConfig(statusWhatsappToken, dados.whatsapp_token_configurado);
+    aplicarClasseStatusConfig(statusWhatsappPhoneId, dados.phone_number_id_configurado);
+    aplicarClasseStatusConfig(statusWhatsappVerifyToken, dados.verify_token_configurado);
+
+    if (mensagemStatusWhatsapp) {
+      mensagemStatusWhatsapp.innerText = dados.mensagem;
+    }
+  } catch (erro) {
+    if (mensagemStatusWhatsapp) {
+      mensagemStatusWhatsapp.innerText = "Erro ao conectar com a API. Verifique se o servidor está rodando.";
+    }
+  }
+}
+
+function usarMensagemRapida(texto) {
+  const simuladorMensagem = document.getElementById("simuladorMensagem");
+
+  if (!simuladorMensagem) return;
+
+  simuladorMensagem.value = texto;
+  simuladorMensagem.focus();
+}
+
+
+function limparSimulador() {
+  const simuladorMensagem = document.getElementById("simuladorMensagem");
+  const simuladorAlerta = document.getElementById("simuladorAlerta");
+
+  const simuladorResultadoTelefone = document.getElementById("simuladorResultadoTelefone");
+  const simuladorResultadoStatus = document.getElementById("simuladorResultadoStatus");
+  const simuladorResultadoResposta = document.getElementById("simuladorResultadoResposta");
+
+  if (simuladorMensagem) {
+    simuladorMensagem.value = "";
+  }
+
+  if (simuladorAlerta) {
+    simuladorAlerta.classList.add("hidden");
+    simuladorAlerta.innerText = "";
+  }
+
+  if (simuladorResultadoTelefone) {
+    simuladorResultadoTelefone.innerText = "--";
+  }
+
+  if (simuladorResultadoStatus) {
+    simuladorResultadoStatus.innerText = "--";
+  }
+
+  if (simuladorResultadoResposta) {
+    simuladorResultadoResposta.innerText = "A resposta aparecerá aqui.";
+  }
+}
+
+
+async function enviarMensagemSimulador() {
+  const telefoneInput = document.getElementById("simuladorTelefone");
+  const mensagemInput = document.getElementById("simuladorMensagem");
+  const simuladorAlerta = document.getElementById("simuladorAlerta");
+
+  const resultadoTelefone = document.getElementById("simuladorResultadoTelefone");
+  const resultadoStatus = document.getElementById("simuladorResultadoStatus");
+  const resultadoResposta = document.getElementById("simuladorResultadoResposta");
+
+  if (!telefoneInput || !mensagemInput || !simuladorAlerta) return;
+
+  const telefone = telefoneInput.value.trim();
+  const mensagem = mensagemInput.value.trim();
+
+  if (!telefone || !mensagem) {
+    simuladorAlerta.classList.remove("hidden");
+    simuladorAlerta.innerText = "Preencha telefone e mensagem para testar.";
+    return;
+  }
+
+  try {
+    simuladorAlerta.classList.remove("hidden");
+    simuladorAlerta.innerText = "Enviando mensagem para o bot...";
+
+    const resposta = await fetch(`${API_URL}/webhook`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        telefone: telefone,
+        mensagem: mensagem
+      })
+    });
+
+    const dados = await resposta.json();
+
+    if (!resposta.ok) {
+      simuladorAlerta.innerText = dados.detail || "Erro ao enviar mensagem.";
+      return;
+    }
+
+    if (resultadoTelefone) {
+      resultadoTelefone.innerText = dados.telefone;
+    }
+
+    if (resultadoStatus) {
+      resultadoStatus.innerText = dados.status;
+    }
+
+    if (resultadoResposta) {
+      resultadoResposta.innerText = dados.resposta;
+    }
+
+    simuladorAlerta.innerText = "Mensagem processada com sucesso!";
+    mensagemInput.value = "";
+  } catch (erro) {
+    simuladorAlerta.classList.remove("hidden");
+    simuladorAlerta.innerText = "Erro ao conectar com a API. Verifique se o servidor está rodando.";
+  }
+}
+
+function calcularPorcentagem(valor, total) {
+  if (!total || total === 0) return 0;
+  return Math.round((valor / total) * 100);
+}
+
+function atualizarBarraRelatorio(idBarra, idTexto, valor, total) {
+  const barra = document.getElementById(idBarra);
+  const texto = document.getElementById(idTexto);
+
+  const porcentagem = calcularPorcentagem(valor, total);
+
+  if (barra) {
+    barra.style.width = `${porcentagem}%`;
+  }
+
+  if (texto) {
+    texto.innerText = `${valor} mensagens (${porcentagem}%)`;
+  }
+}
+
+async function carregarRelatorios() {
+  const totalMensagensEl = document.getElementById("relatorioTotalMensagens");
+  const totalFaqsEl = document.getElementById("relatorioTotalFaqs");
+  const totalUsuariosEl = document.getElementById("relatorioTotalUsuarios");
+
+  const respondidasEl = document.getElementById("relatorioRespondidas");
+  const pendentesEl = document.getElementById("relatorioPendentes");
+  const taxaResolucaoEl = document.getElementById("relatorioTaxaResolucao");
+
+  const ultimasMensagensEl = document.getElementById("relatorioUltimasMensagens");
+
+  if (!totalMensagensEl) return;
+
+  try {
+    const [resMensagens, resFaqs, resUsuarios] = await Promise.all([
+      fetch(`${API_URL}/mensagens`, { headers: authHeaders() }),
+      fetch(`${API_URL}/faqs`, { headers: authHeaders() }),
+      fetch(`${API_URL}/usuarios`, { headers: authHeaders() })
+    ]);
+
+    if (verificarErroAuth(resMensagens)) return;
+
+    const mensagens = resMensagens.ok ? await resMensagens.json() : [];
+    const faqs = resFaqs.ok ? await resFaqs.json() : [];
+    const usuarios = resUsuarios.ok ? await resUsuarios.json() : [];
+
+    const totalMensagens = mensagens.length;
+
+    const respondidas = mensagens.filter((item) => item.status === "respondido").length;
+    const pendentes = mensagens.filter((item) => item.status === "pendente").length;
+    const encaminhadas = mensagens.filter((item) => item.status === "encaminhado").length;
+    const finalizadas = mensagens.filter((item) => item.status === "finalizado").length;
+
+    const resolvidas = respondidas + finalizadas;
+    const taxaResolucao = calcularPorcentagem(resolvidas, totalMensagens);
+
+    totalMensagensEl.innerText = totalMensagens;
+    totalFaqsEl.innerText = faqs.length;
+    totalUsuariosEl.innerText = usuarios.length;
+
+    respondidasEl.innerText = respondidas;
+    pendentesEl.innerText = pendentes;
+    taxaResolucaoEl.innerText = `${taxaResolucao}%`;
+
+    atualizarBarraRelatorio("barraRespondidas", "barraRespondidasTexto", respondidas, totalMensagens);
+    atualizarBarraRelatorio("barraPendentes", "barraPendentesTexto", pendentes, totalMensagens);
+    atualizarBarraRelatorio("barraEncaminhadas", "barraEncaminhadasTexto", encaminhadas, totalMensagens);
+    atualizarBarraRelatorio("barraFinalizadas", "barraFinalizadasTexto", finalizadas, totalMensagens);
+
+    if (ultimasMensagensEl) {
+      if (mensagens.length === 0) {
+        ultimasMensagensEl.innerHTML = `
+          <tr>
+            <td colspan="5" class="empty-text">Nenhuma mensagem encontrada.</td>
+          </tr>
+        `;
+      } else {
+        const ultimas = mensagens.slice(0, 8);
+
+        ultimasMensagensEl.innerHTML = ultimas.map((item) => `
+          <tr>
+            <td>${item.id}</td>
+            <td>${item.telefone}</td>
+            <td>${item.mensagem_recebida}</td>
+            <td>
+              <span class="status-badge status-${item.status}">
+                ${item.status}
+              </span>
+            </td>
+            <td class="data-text">${formatarData(item.criado_em)}</td>
+          </tr>
+        `).join("");
+      }
+    }
+  } catch (erro) {
+    if (ultimasMensagensEl) {
+      ultimasMensagensEl.innerHTML = `
+        <tr>
+          <td colspan="5">Erro ao carregar relatórios.</td>
+        </tr>
+      `;
+    }
+  }
+}
+
+function definirBadgeConfig(elemento, configurado) {
+  if (!elemento) return;
+
+  elemento.classList.remove("config-ok", "config-warning");
+
+  if (configurado) {
+    elemento.innerText = "Configurado";
+    elemento.classList.add("config-ok");
+  } else {
+    elemento.innerText = "Não configurado";
+    elemento.classList.add("config-warning");
+  }
+}
+
+async function carregarConfiguracoes() {
+  const configStatusApi = document.getElementById("configStatusApi");
+  const configStatusBanco = document.getElementById("configStatusBanco");
+  const configAmbiente = document.getElementById("configAmbiente");
+
+  const configNomeSistema = document.getElementById("configNomeSistema");
+  const configVersaoSistema = document.getElementById("configVersaoSistema");
+  const configAutorSistema = document.getElementById("configAutorSistema");
+  const configApiUrl = document.getElementById("configApiUrl");
+
+  const configWhatsappModo = document.getElementById("configWhatsappModo");
+  const configWhatsappToken = document.getElementById("configWhatsappToken");
+  const configWhatsappPhone = document.getElementById("configWhatsappPhone");
+  const configWhatsappVerify = document.getElementById("configWhatsappVerify");
+  const configWhatsappVersao = document.getElementById("configWhatsappVersao");
+
+  const configHealthUrl = document.getElementById("configHealthUrl");
+  const configInfoUrl = document.getElementById("configInfoUrl");
+  const configWhatsappStatusUrl = document.getElementById("configWhatsappStatusUrl");
+
+  if (!configStatusApi) return;
+
+  try {
+    const [resHealth, resInfo, resWhatsapp] = await Promise.all([
+      fetch(`${API_URL}/health`),
+      fetch(`${API_URL}/info`),
+      fetch(`${API_URL}/whatsapp/status`, {
+        headers: authHeaders()
+      })
+    ]);
+
+    const health = resHealth.ok ? await resHealth.json() : null;
+    const info = resInfo.ok ? await resInfo.json() : null;
+    const whatsapp = resWhatsapp.ok ? await resWhatsapp.json() : null;
+
+    if (configStatusApi) {
+      configStatusApi.innerText = health?.status || "erro";
+    }
+
+    if (configStatusBanco) {
+      configStatusBanco.innerText = health?.database || "offline";
+    }
+
+    if (configAmbiente) {
+      configAmbiente.innerText = info?.ambiente || "--";
+    }
+
+    if (configNomeSistema) {
+      configNomeSistema.innerText = info?.nome || "--";
+    }
+
+    if (configVersaoSistema) {
+      configVersaoSistema.innerText = info?.versao || "--";
+    }
+
+    if (configAutorSistema) {
+      configAutorSistema.innerText = info?.autor || "--";
+    }
+
+    if (configApiUrl) {
+      configApiUrl.innerText = API_URL;
+    }
+
+    if (configWhatsappModo) {
+      configWhatsappModo.innerText = whatsapp?.modo || "--";
+      configWhatsappModo.classList.remove("config-ok", "config-warning");
+      configWhatsappModo.classList.add(
+        whatsapp?.pronto_para_envio ? "config-ok" : "config-warning"
+      );
+    }
+
+    definirBadgeConfig(configWhatsappToken, whatsapp?.whatsapp_token_configurado);
+    definirBadgeConfig(configWhatsappPhone, whatsapp?.phone_number_id_configurado);
+    definirBadgeConfig(configWhatsappVerify, whatsapp?.verify_token_configurado);
+
+    if (configWhatsappVersao) {
+      configWhatsappVersao.innerText = whatsapp?.api_version || "--";
+    }
+
+    if (configHealthUrl) {
+      configHealthUrl.innerText = `${API_URL}/health`;
+    }
+
+    if (configInfoUrl) {
+      configInfoUrl.innerText = `${API_URL}/info`;
+    }
+
+    if (configWhatsappStatusUrl) {
+      configWhatsappStatusUrl.innerText = `${API_URL}/whatsapp/status`;
+    }
+  } catch (erro) {
+    if (configStatusApi) {
+      configStatusApi.innerText = "erro";
+    }
+
+    if (configStatusBanco) {
+      configStatusBanco.innerText = "offline";
+    }
+  }
+}
+
 function formatarData(dataTexto) {
   if (!dataTexto) return "Sem data";
 
@@ -1132,5 +1521,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (document.getElementById("perfilNome")) {
     carregarMeuPerfil();
+  }
+
+  if (document.getElementById("whatsappModo")) {
+    carregarStatusWhatsapp();
+  }
+
+  if (document.getElementById("relatorioTotalMensagens")) {
+    carregarRelatorios();
+  }
+
+  if (document.getElementById("configStatusApi")) {
+    carregarConfiguracoes();
   }
 });

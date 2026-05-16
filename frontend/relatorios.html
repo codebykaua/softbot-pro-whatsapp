@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoftBot Pro | Relatórios</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+
+    <aside class="sidebar">
+      <div class="logo">
+        <span class="logo-icon">S</span>
+        <div>
+          <h1>SoftBot Pro</h1>
+          <p>Automação WhatsApp</p>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a href="index.html">Dashboard</a>
+        <a href="simulador.html">Simulador</a>
+        <a href="mensagens.html">Mensagens</a>
+        <a href="faq.html">FAQs</a>
+        <a href="usuarios.html">Usuários</a>
+        <a href="perfil.html">Meu Perfil</a>
+        <a href="whatsapp.html">WhatsApp</a>
+        <a class="active" href="relatorios.html">Relatórios</a>
+        <a href="configuracoes.html">Configurações</a>
+        <a href="sobre.html">Sobre</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <h2>Relatórios</h2>
+          <p>Resumo geral dos atendimentos, usuários e respostas automáticas.</p>
+        </div>
+
+        <button onclick="carregarRelatorios()">Atualizar</button>
+      </header>
+
+      <section class="grid reports-grid">
+        <div class="card info-card">
+          <h3>Total de mensagens</h3>
+          <p id="relatorioTotalMensagens">0</p>
+          <span>Mensagens registradas</span>
+        </div>
+
+        <div class="card info-card">
+          <h3>Total de FAQs</h3>
+          <p id="relatorioTotalFaqs">0</p>
+          <span>Respostas automáticas</span>
+        </div>
+
+        <div class="card info-card">
+          <h3>Total de usuários</h3>
+          <p id="relatorioTotalUsuarios">0</p>
+          <span>Contas cadastradas</span>
+        </div>
+
+        <div class="card info-card status-card respondido-card">
+          <h3>Respondidas</h3>
+          <p id="relatorioRespondidas">0</p>
+          <span>Atendimentos respondidos</span>
+        </div>
+
+        <div class="card info-card status-card pendente-card">
+          <h3>Pendentes</h3>
+          <p id="relatorioPendentes">0</p>
+          <span>Aguardando análise</span>
+        </div>
+
+        <div class="card info-card status-card finalizado-card">
+          <h3>Taxa de resolução</h3>
+          <p id="relatorioTaxaResolucao">0%</p>
+          <span>Finalizadas + respondidas</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h3>Resumo por status</h3>
+            <p>Distribuição das mensagens registradas no sistema.</p>
+          </div>
+        </div>
+
+        <div class="report-status-list">
+          <div class="report-status-item">
+            <div>
+              <strong>Respondidas</strong>
+              <span id="barraRespondidasTexto">0 mensagens</span>
+            </div>
+            <div class="report-bar">
+              <div id="barraRespondidas" class="report-bar-fill status-fill-respondido"></div>
+            </div>
+          </div>
+
+          <div class="report-status-item">
+            <div>
+              <strong>Pendentes</strong>
+              <span id="barraPendentesTexto">0 mensagens</span>
+            </div>
+            <div class="report-bar">
+              <div id="barraPendentes" class="report-bar-fill status-fill-pendente"></div>
+            </div>
+          </div>
+
+          <div class="report-status-item">
+            <div>
+              <strong>Encaminhadas</strong>
+              <span id="barraEncaminhadasTexto">0 mensagens</span>
+            </div>
+            <div class="report-bar">
+              <div id="barraEncaminhadas" class="report-bar-fill status-fill-encaminhado"></div>
+            </div>
+          </div>
+
+          <div class="report-status-item">
+            <div>
+              <strong>Finalizadas</strong>
+              <span id="barraFinalizadasTexto">0 mensagens</span>
+            </div>
+            <div class="report-bar">
+              <div id="barraFinalizadas" class="report-bar-fill status-fill-finalizado"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h3>Últimas mensagens</h3>
+            <p>As últimas mensagens registradas no atendimento.</p>
+          </div>
+
+          <a class="link-button" href="mensagens.html">Ver todas</a>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Telefone</th>
+                <th>Mensagem</th>
+                <th>Status</th>
+                <th>Data</th>
+              </tr>
+            </thead>
+
+            <tbody id="relatorioUltimasMensagens">
+              <tr>
+                <td colspan="5">Carregando mensagens...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
