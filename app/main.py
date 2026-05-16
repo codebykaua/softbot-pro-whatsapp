@@ -623,3 +623,33 @@ def status_integracao_whatsapp(usuario=Depends(get_usuario_logado)):
             else "Integração em modo de simulação. Configure token e Phone Number ID para envio real."
         )
     }
+@app.post("/reset-admin-temp")
+def reset_admin_temp(db: Session = Depends(get_db)):
+    usuario = crud.buscar_usuario_por_username(db, "admin")
+
+    if usuario is None:
+        novo_admin = crud.criar_usuario(
+            db=db,
+            nome="Administrador",
+            username="admin",
+            senha="123456",
+            perfil="admin"
+        )
+
+        return {
+            "mensagem": "Admin criado com sucesso.",
+            "username": novo_admin.username,
+            "senha": "123456"
+        }
+
+    crud.atualizar_senha_usuario(
+        db=db,
+        usuario_id=usuario.id,
+        nova_senha="123456"
+    )
+
+    return {
+        "mensagem": "Senha do admin resetada com sucesso.",
+        "username": "admin",
+        "senha": "123456"
+    }
