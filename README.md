@@ -92,6 +92,80 @@ O objetivo do SoftBot Pro WhatsApp é criar uma base profissional para automaç�
 - Visualização de nome, username, perfil e data de criação
 - Alteração da própria senha
 
+### Simulador
+
+- Envio de mensagens de teste para o bot
+- Resposta automática em tempo real
+- Mensagens rápidas para teste
+- Registro automático no histórico
+
+### Relatórios
+
+- Resumo geral de mensagens
+- Total de FAQs
+- Total de usuários
+- Taxa de resolução
+- Distribuição por status
+- Últimas mensagens registradas
+
+### Configurações
+
+- Status da API
+- Status do banco de dados
+- Informações do ambiente
+- URL da API usada pelo front-end
+- Diagnóstico da integração WhatsApp
+
+### Sobre
+
+- Apresentação do projeto
+- Tecnologias utilizadas
+- Funcionalidades principais
+- Próximas melhorias
+- Informações do autor
+
+---
+
+## Prints do projeto
+
+### Simulador do Bot
+
+Página para testar o atendimento automático sem depender do Swagger ou do WhatsApp real.
+
+![Simulador do Bot](docs/prints-do-projeto/09-simulador.png)
+
+---
+
+### Status do WhatsApp
+
+Página de diagnóstico da integração com WhatsApp Business Platform, mostrando modo atual, token, Phone Number ID e Verify Token.
+
+![Status do WhatsApp](docs/prints-do-projeto/10-whatsapp.png)
+
+---
+
+### Relatórios
+
+Tela com resumo de mensagens, usuários, FAQs, taxa de resolução e distribuição por status.
+
+![Relatórios](docs/prints-do-projeto/11-relatorios.png)
+
+---
+
+### Configurações
+
+Painel de diagnóstico geral com status da API, banco, ambiente, URL da API e informações do sistema.
+
+![Configurações](docs/prints-do-projeto/12-configuracoes.png)
+
+---
+
+### Sobre o Sistema
+
+Página explicando o objetivo do projeto, tecnologias usadas, funcionalidades principais e próximas melhorias.
+
+![Sobre o Sistema](docs/prints-do-projeto/13-sobre.png)
+
 ---
 
 ## Permissões por perfil
