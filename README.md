@@ -1,8 +1,36 @@
 # SoftBot Pro WhatsApp
 
+> Projeto funcional de automação de atendimento com painel administrativo, API em FastAPI e estrutura preparada para integração com WhatsApp Cloud API.
+
 Sistema de automação de atendimento inspirado em WhatsApp Business, desenvolvido com Python, FastAPI, SQLite/PostgreSQL, HTML, CSS e JavaScript.
 
 O projeto simula um bot de atendimento para uma empresa de software, permitindo responder mensagens automaticamente, cadastrar perguntas frequentes, acompanhar histórico de mensagens, gerenciar status de atendimento e controlar usuários do painel administrativo.
+
+---
+
+## Status do projeto
+
+O **SoftBot Pro WhatsApp** está funcional como sistema web de automação e atendimento.
+
+O projeto conta com:
+
+- API em FastAPI hospedada no Render;
+- Front-end hospedado no GitHub Pages;
+- Login com autenticação;
+- Painel administrativo;
+- Cadastro e gerenciamento de usuários;
+- Cadastro de FAQs;
+- Simulador de mensagens;
+- Histórico de atendimentos;
+- Filtros e busca;
+- Relatórios;
+- Página de configurações;
+- Página de status da integração WhatsApp;
+- Webhook preparado para WhatsApp Cloud API;
+- Recebimento de mensagens reais via webhook;
+- Processamento automático das mensagens recebidas;
+- Registro das mensagens no banco de dados;
+- Logs de envio e status das mensagens.
 
 ---
 
@@ -233,87 +261,41 @@ O suporte não pode:
 
 ---
 
-## Integração com WhatsApp Business Platform
+## Integração com WhatsApp
 
-O projeto já possui uma estrutura preparada para futura integração com a API oficial do WhatsApp Business Platform.
+A integração com a **WhatsApp Cloud API** foi preparada no projeto e testada tecnicamente.
 
-Atualmente, a integração está em modo de preparação e testes, utilizando payloads simulados parecidos com os enviados pela Meta.
+Durante os testes, o sistema conseguiu:
 
-### Arquivos relacionados
+- validar o webhook com a Meta;
+- receber mensagens reais enviadas pelo WhatsApp;
+- processar a mensagem recebida;
+- gerar uma resposta automática;
+- salvar a mensagem no painel;
+- enviar a requisição de resposta para a API da Meta;
+- capturar o status de entrega retornado pela Meta.
 
-```text
-app/whatsapp_service.py
-tests/payload_whatsapp_texto.json
-tests/payload_whatsapp_imagem.json
-```
+Porém, a entrega final da resposta no WhatsApp não foi concluída por uma restrição externa da conta empresarial utilizada nos testes.
 
-### Rotas criadas
-
-```text
-GET /whatsapp/webhook
-POST /whatsapp/webhook
-```
-
-### Verificação do webhook
-
-A rota `GET /whatsapp/webhook` é usada para validar o webhook configurado na Meta.
-
-Exemplo local:
+Erro retornado pela Meta:
 
 ```text
-http://127.0.0.1:8000/whatsapp/webhook?hub_mode=subscribe&hub_verify_token=softbot_verify_token_123&hub_challenge=12345
+Business account is restricted from messaging users in this country.
 ```
 
-Resposta esperada:
+Portanto, o sistema está pronto tecnicamente para integração com WhatsApp, mas a vinculação final depende de uma conta empresarial WhatsApp Business liberada para envio no país/região do destinatário.
 
-```text
-12345
-```
+## Observação importante
 
-### Recebimento de mensagens
+Este projeto foi publicado como uma versão funcional para estudo, portfólio e demonstração técnica.
 
-A rota `POST /whatsapp/webhook` recebe mensagens em formato parecido com o payload real do WhatsApp Cloud API.
+A integração com WhatsApp real está estruturada no código, mas pode exigir:
 
-Ela consegue:
-
-- extrair o telefone do cliente;
-- identificar o tipo da mensagem;
-- processar mensagens de texto;
-- tratar mensagens não textuais;
-- gerar resposta automática;
-- salvar a mensagem no banco de dados;
-- registrar logs no terminal;
-- preparar o envio da resposta pelo WhatsApp.
-
-### Tipos de mensagens tratados
-
-```text
-text
-image
-audio
-video
-document
-sticker
-location
-contacts
-interactive
-unknown
-```
-
-### Observação
-
-O envio real pelo WhatsApp ainda depende da configuração das variáveis:
-
-```env
-WHATSAPP_TOKEN=
-WHATSAPP_PHONE_NUMBER_ID=
-WHATSAPP_VERIFY_TOKEN=
-WHATSAPP_API_VERSION=
-```
-
-Enquanto essas variáveis não estiverem configuradas, a função de envio retorna uma resposta informando que o token ou o Phone Number ID não foram configurados.
-
-Isso permite testar toda a estrutura do webhook sem conectar ainda a conta real da Meta.
+- conta empresarial verificada;
+- número oficial configurado na WhatsApp Business Platform;
+- permissões liberadas pela Meta;
+- token permanente;
+- configuração completa no WhatsApp Manager.
 
 ---
 
@@ -440,11 +422,12 @@ softbot-pro-whatsapp/
 
 ## Próximas melhorias
 
-- Fazer deploy da API
-- Configurar PostgreSQL em produção
-- Conectar com WhatsApp Business Platform
-- Configurar token real do WhatsApp
-- Configurar webhook na Meta
-- Enviar mensagens reais pelo WhatsApp
-- Criar relatórios de atendimento
-- Melhorar tratamento de arquivos enviados pelo cliente
+- Configurar conta empresarial verificada na Meta;
+- Vincular número oficial à WhatsApp Business Platform;
+- Criar token permanente para produção;
+- Finalizar envio real de mensagens pelo WhatsApp;
+- Migrar SQLite para PostgreSQL em produção;
+- Melhorar relatórios com gráficos;
+- Criar página de auditoria de mensagens;
+- Adicionar paginação nas tabelas;
+- Melhorar responsividade mobile.
