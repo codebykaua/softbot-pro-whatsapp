@@ -118,3 +118,35 @@ def enviar_mensagem_whatsapp(telefone: str, mensagem: str):
             "enviado": False,
             "motivo": str(erro)
         }
+
+
+def extrair_status_whatsapp(payload: dict):
+    """
+    Extrai eventos de status enviados pela Meta, como:
+    sent, delivered, read ou failed.
+
+    Retorna None se o payload não for de status.
+    """
+
+    try:
+        entry = payload.get("entry", [])[0]
+        changes = entry.get("changes", [])[0]
+        value = changes.get("value", {})
+
+        statuses = value.get("statuses", [])
+
+        if not statuses:
+            return None
+
+        status_info = statuses[0]
+
+        return {
+            "id_mensagem": status_info.get("id"),
+            "status": status_info.get("status"),
+            "telefone": status_info.get("recipient_id"),
+            "timestamp": status_info.get("timestamp"),
+            "errors": status_info.get("errors", [])
+        }
+
+    except Exception:
+        return None

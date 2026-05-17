@@ -30,7 +30,11 @@ from app.config import (
     WHATSAPP_VERIFY_TOKEN,
     WHATSAPP_API_VERSION
 )
-from app.whatsapp_service import extrair_mensagem_whatsapp, enviar_mensagem_whatsapp
+from app.whatsapp_service import (
+    extrair_mensagem_whatsapp,
+    enviar_mensagem_whatsapp,
+    extrair_status_whatsapp
+)
 from app import crud
 
 Base.metadata.create_all(bind=engine)
@@ -544,12 +548,27 @@ async def receber_webhook_whatsapp(
 
     payload = await request.json()
 
+    status_whatsapp = extrair_status_whatsapp(payload)
+
+    if status_whatsapp is not None:
+        print("\n[WHATSAPP] Status de mensagem recebido")
+        print(f"Telefone: {status_whatsapp.get('telefone')}")
+        print(f"ID mensagem: {status_whatsapp.get('id_mensagem')}")
+        print(f"Status: {status_whatsapp.get('status')}")
+        print(f"Erros: {status_whatsapp.get('errors')}")
+        print("[WHATSAPP] Status processado\n")
+
+        return {
+            "status": "status_recebido",
+            "dados": status_whatsapp
+        }
+
     dados_mensagem = extrair_mensagem_whatsapp(payload)
 
     if dados_mensagem is None:
         return {
             "status": "ignorado",
-            "mensagem": "Nenhuma mensagem de texto encontrada no payload."
+            "mensagem": "Nenhuma mensagem encontrada no payload."
         }
 
     telefone = dados_mensagem["telefone"]
